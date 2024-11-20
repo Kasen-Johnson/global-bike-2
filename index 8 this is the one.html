@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Bike Rewards</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <style>
+        :root {
+            --forest-green: #006838;  /* Updated to match logo color */
+            --light-green: #e8f5e9;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            background-color: white;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo {
+            height: 60px;
+            margin-right: 20px;
+            /* Rounded corners to match logo style */
+            border-radius: 8px;
+        }
+
+        .header-text {
+            color: var(--forest-green);
+            margin: 0;
+            font-size: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 2px solid var(--forest-green);
+        }
+
+        .tab {
+            padding: 15px 30px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 16px;
+            color: var(--forest-green);
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .tab.active {
+            background-color: var(--forest-green);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .points-card {
+            background: linear-gradient(135deg, var(--forest-green), #008c4c);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .points-balance {
+            font-size: 48px;
+            margin: 10px 0;
+        }
+
+        .reward-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            transition: all 0.3s ease;
+        }
+
+        .reward-item:hover {
+            background-color: var(--light-green);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background-color: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress {
+            width: 75%;
+            height: 100%;
+            background-color: white;
+            transition: width 0.3s ease;
+        }
+
+        .badges {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .badge {
+            text-align: center;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .badge:hover {
+            transform: translateY(-5px);
+        }
+
+        .badge i {
+            font-size: 40px;
+            color: var(--forest-green);
+            margin-bottom: 10px;
+        }
+
+        .survey-form {
+            display: grid;
+            gap: 15px;
+            background: var(--light-green);
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .survey-form label {
+            font-weight: bold;
+            color: var(--forest-green);
+        }
+
+        .survey-form input,
+        .survey-form textarea {
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            transition: border-color 0.3s ease;
+        }
+
+        .survey-form input:focus,
+        .survey-form textarea:focus {
+            border-color: var(--forest-green);
+            outline: none;
+        }
+
+        .btn {
+            background-color: var(--forest-green);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+		.my-store-container {
+            background-color: #eafaf0;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .store-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+        .store-card:hover {
+            transform: scale(1.02);
+        }
+        .store-info {
+            flex: 1;
+        }
+        .store-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #09631d;
+        }
+        .store-distance {
+            font-size: 0.9rem;
+            color: #555;
+        }
+        .store-hours {
+            font-size: 0.9rem;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="data:image/png;base64,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"
+        <h1 class="header-text">Rewards Program</h1>
+    </div>
+
+    <div class="container">
+        <div class="tabs">
+            <button class="tab active" onclick="openTab(event, 'dashboard')">Dashboard</button>
+            <button class="tab" onclick="openTab(event, 'rewards')">Rewards</button>
+            <button class="tab" onclick="openTab(event, 'survey')">Survey</button>
+            <button class="tab" onclick="openTab(event, 'history')">History</button>
+            <button class="tab" onclick="openTab(event, 'mystore')">My Store</button>
+        </div>
+
+        <div id="dashboard" class="tab-content active">
+            <div class="points-card">
+                <h2>Current Points Balance</h2>
+                <div class="points-balance">2,450</div>
+                <p>Points until next reward: 550</p>
+                <div class="progress-bar">
+                    <div class="progress"></div>
+                </div>
+            </div>
+            <div class="badges">
+                <div class="badge">
+                    <i class="fas fa-bicycle"></i>
+                    <p>First Ride</p>
+                </div>
+                <div class="badge">
+                    <i class="fas fa-medal"></i>
+                    <p>10 Reviews</p>
+                </div>
+                <div class="badge">
+                    <i class="fas fa-trophy"></i>
+                    <p>Top Cyclist</p>
+                </div>
+                <div class="badge">
+                    <i class="fas fa-star"></i>
+                    <p>Elite Member</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="rewards" class="tab-content">
+            <h2>Available Rewards</h2>
+            <div class="reward-item">
+                <div>
+                    <h3>$10 Store Credit</h3>
+                    <p>Redeem 1000 points</p>
+                </div>
+                <button class="btn">Redeem</button>
+            </div>
+            <div class="reward-item">
+                <div>
+                    <h3>Free Bike Tune-up</h3>
+                    <p>Redeem 2500 points</p>
+                </div>
+                <button class="btn">Redeem</button>
+            </div>
+            <div class="reward-item">
+                <div>
+                    <h3>Premium Bike Accessories</h3>
+                    <p>Redeem 5000 points</p>
+                </div>
+                <button class="btn">Redeem</button>
+            </div>
+			<div class="reward-item">
+                <div>
+                    <h3>Race Bike Jersey</h3>
+                    <p>Redeem 3000 points</p>
+                </div>
+                <button class="btn">Redeem</button>
+            </div>
+        </div>
+
+        <div id="survey" class="tab-content">
+            <h2>Share Your Experience</h2>
+            <form class="survey-form">
+                <div>
+                    <label>Rate your recent purchase:</label>
+                    <div>
+                        <input type="radio" name="rating" value="5"> 5
+                        <input type="radio" name="rating" value="4"> 4
+                        <input type="radio" name="rating" value="3"> 3
+                        <input type="radio" name="rating" value="2"> 2
+                        <input type="radio" name="rating" value="1"> 1
+                    </div>
+                </div>
+                <div>
+                    <label>What products did you purchase?</label>
+                    <input type="text" placeholder="Enter products">
+                </div>
+                <div>
+                    <label>Your feedback:</label>
+                    <textarea rows="4" placeholder="Tell us about your experience"></textarea>
+                </div>
+                <button type="submit" class="btn">Submit Survey (+100 points)</button>
+            </form>
+        </div>
+
+        <div id="history" class="tab-content">
+            <h2>Points History</h2>
+            <div class="reward-item">
+                <div>
+                    <h3>Survey Completion</h3>
+                    <p>+100 points</p>
+                </div>
+                <span>Oct 15, 2024</span>
+            </div>
+            <div class="reward-item">
+                <div>
+                    <h3>Store Credit Redemption</h3>
+                    <p>-1000 points</p>
+                </div>
+                <span>Oct 10, 2024</span>
+            </div>
+            <div class="reward-item">
+                <div>
+                    <h3>Product Review</h3>
+                    <p>+50 points</p>
+                </div>
+                <span>Oct 5, 2024</span>
+            </div>
+            </div>
+        </div>
+
+        <!-- Fix for My Store content -->
+        <div id="mystore" class="tab-content">
+            <h2>My Store</h2>
+            <div class="my-store-container">
+                <div class="store-card">
+                    <div class="store-info">
+                        <p class="store-name">Global Bike - Spoketown</p>
+                        <p class="store-distance">Distance: 5.2 miles</p>
+                        <p class="store-hours">Hours: 9:00 AM - 8:00 PM</p>
+                    </div>
+                </div>
+                <div class="store-card">
+                    <div class="store-info">
+                        <p class="store-name">Global Bike - Chainville</p>
+                        <p class="store-distance">Distance: 12.8 miles</p>
+                        <p class="store-hours">Hours: 10:00 AM - 6:00 PM</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openTab(event, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].classList.remove("active");
+            }
+            tablinks = document.getElementsByClassName("tab");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+            }
+            document.getElementById(tabName).classList.add("active");
+            event.currentTarget.classList.add("active");
+        }
+		
+		document.querySelector('.survey-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your feedback! 100 points have been added to your account.');
+        });
+
+        document.querySelectorAll('.reward-item .btn').forEach(button => {
+            button.addEventListener('click', function() {
+                alert('Reward redeemed successfully! Check your email for details.');
+            });
+        });
+    </script>
+</body>
+</html>
